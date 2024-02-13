@@ -6,6 +6,8 @@ Module containing the HBNBCommand class.
 import cmd
 import models
 from models.base_model import BaseModel
+from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -14,7 +16,11 @@ class HBNBCommand(cmd.Cmd):
     HBNBCommand class inherits from cmd.Cmd
     """
     prompt = "(hbnb) "
-    valid_classes = ["BaseModel"]
+    valid_classes = ["BaseModel", "User"]
+
+    def get_line(self):
+        """Do an empty line"""
+        pass
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -37,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
         elif args[0] not in HBNBCommand.valid_classes:
             print("** class doesn't exist **")
         else:
-            new_instance = BaseModel()
+            new_instance = eval(args[0])()
             new_instance.save()
             print(new_instance.id)
 

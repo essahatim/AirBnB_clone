@@ -2,6 +2,7 @@
 import os
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -37,7 +38,10 @@ class FileStorage:
                     loaded_objs = json.load(file)
                     for key, value in loaded_objs.items():
                         ClassName, obj_id = key.split('.')
-                        SomeClass = eval(ClassName)
+                        if ClassName == 'User':
+                            SomeClass = User
+                        else:
+                            SomeClass = eval(ClassName)
                         obj = SomeClass(**value)
                         FileStorage.__objects[key] = obj
                 except Exception:
